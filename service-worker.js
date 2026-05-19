@@ -1,10 +1,14 @@
 const CACHE_NAME = "garage-cache-v3";
 const FILES_TO_CACHE = [
-  "/",
-  "/index.html",
-  "/manifest.json",
-  "/service-worker.js"
+  "./",
+  "./index.html",
+  "./manifest.json",
+  "./service-worker.js",
+  "./icon-192.png",
+  "./icon-512.png",
+  "./paho-mqtt.js"
 ];
+
 
 // Install
 self.addEventListener("install", (evt) => {
