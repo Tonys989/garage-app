@@ -265,7 +265,7 @@
 
   // 📤 Publish helper
   function send(topic, payload) {
-    const msg = new Paho.MQTT.Message(payload);
+    const msg = new Paho.Message(payload);
     msg.destinationName = topic;
     client.send(msg);
   }
