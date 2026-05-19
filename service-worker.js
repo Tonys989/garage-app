@@ -1,6 +1,5 @@
 const CACHE_NAME = "garage-cache-v4";
 const FILES_TO_CACHE = [
-  "./",
   "./index.html",
   "./manifest.json",
   "./service-worker.js",
