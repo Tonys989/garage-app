@@ -237,7 +237,7 @@
   const TOPIC_STATUS_LIGHT = "garage/status/light";
 
   // 🔌 Create MQTT client
-  const clientID = "phoneapp_" + Math.random().toString(16).substr(2, 8);
+  const clientID = "phoneapp";
   const client = new Paho.Client(MQTT_HOST, clientID);
 
   // 🔌 Connect
