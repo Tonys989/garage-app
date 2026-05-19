@@ -238,7 +238,7 @@
 
   // 🔌 Create MQTT client
   const clientID = "phoneapp";
-  const client = new Paho.Client(MQTT_HOST, clientID);
+  const client = new Paho.Client(host, port, clientID);
 
   // 🔌 Connect
   client.connect({
