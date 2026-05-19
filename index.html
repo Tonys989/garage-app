@@ -222,7 +222,6 @@
     </div>
   </div>
 <script src="paho-mqtt.js"></script>
-<script src="paho-mqtt.js"></script>
 <script>
   // 🔧 EMQX Cloud connection settings (URL style)
   const MQTT_URL = "wss://h804228d.ala.asia-southeast1.emqxsl.com:8084/mqtt";
@@ -252,7 +251,9 @@
   // 📥 Handle incoming messages
   client.onMessageArrived = (msg) => {
     if (msg.destinationName === TOPIC_STATUS_DOOR) {
-      document.querySelector("#door-status").textContent = msg.payloadString;
+      const status = msg.payloadString.trim();
+      document.querySelector("#door-status").textContent = status;
+      console.log("Door status:", status);
     }
   };
 
