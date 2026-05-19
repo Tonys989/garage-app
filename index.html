@@ -187,10 +187,11 @@
           🟥 CLOSE GARAGE
           <span class="label">Large, easy‑press button</span>
         </div>
-        <div class="btn btn-light">
-          🟨 LIGHTS ON / OFF
-          <span class="label">Toggle garage lighting</span>
+        <div class="btn btn-stop" style="background:#3b82f6; color:#fff; box-shadow:0 0 12px #3b82f688;">
+          🟦 STOP
+          <span class="label">Emergency stop</span>
         </div>
+
       </div>
 
     <div class="status-card">
@@ -199,10 +200,7 @@
     <span>Door</span>
     <span id="door-status">Closed</span>
   </div>
-  <div class="status-line">
-    <span>Lights</span>
-    <span id="light-status">Off</span>
-  </div>
+  
 </div>
 
 
@@ -233,9 +231,7 @@
 
   // 🔧 Topics
   const TOPIC_CMD = "garage/cmd";
-  const TOPIC_LIGHT = "garage/light";
   const TOPIC_STATUS_DOOR = "garage/status/door";
-  const TOPIC_STATUS_LIGHT = "garage/status/light";
 
   // 🔌 Create MQTT client (URL style)
   const clientID = "phoneapp_" + Math.random().toString(16).substr(2, 8);
@@ -249,7 +245,6 @@
     onSuccess: () => {
       console.log("Connected to EMQX");
       client.subscribe(TOPIC_STATUS_DOOR);
-      client.subscribe(TOPIC_STATUS_LIGHT);
     },
     onFailure: (err) => console.error("MQTT error:", err)
   });
@@ -258,9 +253,6 @@
   client.onMessageArrived = (msg) => {
     if (msg.destinationName === TOPIC_STATUS_DOOR) {
       document.querySelector("#door-status").textContent = msg.payloadString;
-    }
-    if (msg.destinationName === TOPIC_STATUS_LIGHT) {
-      document.querySelector("#light-status").textContent = msg.payloadString;
     }
   };
 
@@ -285,11 +277,11 @@
     speak("Closing garage");
   };
 
-  // 🟨 LIGHT toggle
-  document.querySelector(".btn-light").onclick = () => {
-    send(TOPIC_LIGHT, "toggle");
+  // 🟦 STOP button
+  document.querySelector(".btn-stop").onclick = () => {
+    send(TOPIC_CMD, "stop");
     navigator.vibrate?.(50);
-    speak("Toggling lights");
+    speak("Stopping garage");
   };
 
   // 🔊 Voice feedback
@@ -300,7 +292,6 @@
     speechSynthesis.speak(msg);
   }
 </script>
-
 <script>
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("service-worker.js")
