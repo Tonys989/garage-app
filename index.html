@@ -224,9 +224,10 @@
     </div>
   </div>
 <script src="paho-mqtt.js"></script>
+<script src="paho-mqtt.js"></script>
 <script>
-  // 🔧 EMQX Cloud connection settings
-  const MQTT_HOST = "wss://h804228d.ala.asia-southeast1.emqxsl.com:8084/mqtt";
+  // 🔧 EMQX Cloud connection settings (URL style)
+  const MQTT_URL = "wss://h804228d.ala.asia-southeast1.emqxsl.com:8084/mqtt";
   const MQTT_USER = "tonys989";
   const MQTT_PASS = "Fred001";
 
@@ -236,9 +237,9 @@
   const TOPIC_STATUS_DOOR = "garage/status/door";
   const TOPIC_STATUS_LIGHT = "garage/status/light";
 
-  // 🔌 Create MQTT client
-  const clientID = "phoneapp";
-  const client = new Paho.Client(host, port, clientID);
+  // 🔌 Create MQTT client (URL style)
+  const clientID = "phoneapp_" + Math.random().toString(16).substr(2, 8);
+  const client = new Paho.Client(MQTT_URL, clientID);
 
   // 🔌 Connect
   client.connect({
