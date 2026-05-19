@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#000000">
+
+  <meta charset="UTF-8" />
+  <title>Accessible Garage Control UI Mockup</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      color: #fff;
+    }
+
+    .phone-frame {
+      width: 360px;
+      height: 720px;
+      background: #000;
+      border-radius: 32px;
+
+      /* 🔥 NEW: Double-width neon green outline */
+      border: 4px solid #39ff14;
+      box-shadow: 0 0 25px #39ff14aa;
+
+      padding: 20px 18px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .phone-notch {
+      width: 120px;
+      height: 18px;
+      background: #111;
+      border-radius: 0 0 16px 16px;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 12px #000;
+    }
+
+    .phone-inner {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      height: 100%;
+    }
+
+    .title {
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #fff;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #9ca3af;
+    }
+
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .btn {
+      border-radius: 14px;
+      padding: 16px 12px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: default;
+      color: #000;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+    }
+
+    .btn span.label {
+      margin-top: 4px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      opacity: 0.9;
+      color: #000;
+    }
+
+    .btn-open {
+      background: #22c55e;
+      box-shadow: 0 0 12px #22c55e88;
+    }
+
+    .btn-close {
+      background: #ef4444;
+      color: #fff;
+      box-shadow: 0 0 12px #ef444488;
+    }
+
+    .btn-light {
+      background: #facc15;
+      box-shadow: 0 0 12px #facc1588;
+    }
+
+    .status-card,
+    .feedback-card {
+      border-radius: 14px;
+      padding: 14px 16px;
+      background: #111;
+      border: 1px solid #333;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.9rem;
+      color: #e5e7eb;
+    }
+
+    .card-title {
+      font-weight: 700;
+      margin-bottom: 2px;
+      color: #fff;
+    }
+
+    .status-line,
+    .feedback-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: #9ca3af;
+    }
+
+    .pill {
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #000;
+    }
+
+    .pill-on {
+      background: #22c55e;
+      color: #000;
+      box-shadow: 0 0 8px #22c55e88;
+    }
+
+    .footer-note {
+      margin-top: auto;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <div class="phone-frame">
+    <div class="phone-notch"></div>
+    <div class="phone-inner">
+      <div>
+        <div class="title">Accessible Garage Control</div>
+        <div class="subtitle">High contrast • Black screen • Easy to see</div>
+      </div>
+
+      <div class="button-group">
+        <div class="btn btn-open">
+          🟩 OPEN GARAGE
+          <span class="label">Large, easy‑press button</span>
+        </div>
+        <div class="btn btn-close">
+          🟥 CLOSE GARAGE
+          <span class="label">Large, easy‑press button</span>
+        </div>
+        <div class="btn btn-light">
+          🟨 LIGHTS ON / OFF
+          <span class="label">Toggle garage lighting</span>
+        </div>
+      </div>
+
+    <div class="status-card">
+  <div class="card-title">Status</div>
+  <div class="status-line">
+    <span>Door</span>
+    <span id="door-status">Closed</span>
+  </div>
+  <div class="status-line">
+    <span>Lights</span>
+    <span id="light-status">Off</span>
+  </div>
+</div>
+
+
+      <div class="feedback-card">
+        <div class="card-title">Accessibility Feedback</div>
+        <div class="feedback-line">
+          <span>🔊 Voice</span>
+          <span class="pill pill-on">On</span>
+        </div>
+        <div class="feedback-line">
+          <span>📳 Haptics</span>
+          <span class="pill pill-on">On</span>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        Mock UI for SIT210 Accessible Garage System
+      </div>
+    </div>
+  </div>
+<script src="https://unpkg.com/paho-mqtt/mqttws31.min.js"></script>
+<script>
+  // 🔧 EMQX Cloud connection settings
+  const MQTT_HOST = "wss://h804228d.ala.asia-southeast1.emqxsl.com:8084/mqtt";
+  const MQTT_USER = "fred";
+  const MQTT_PASS = "Fred001";
+
+  // 🔧 Topics
+  const TOPIC_CMD = "garage/cmd";
+  const TOPIC_LIGHT = "garage/light";
+  const TOPIC_STATUS_DOOR = "garage/status/door";
+  const TOPIC_STATUS_LIGHT = "garage/status/light";
+
+  // 🔌 Create MQTT client
+  const clientID = "phoneapp_" + Math.random().toString(16).substr(2, 8);
+  const client = new Paho.MQTT.Client(MQTT_HOST, clientID);
+
+  // 🔌 Connect
+  client.connect({
+    useSSL: true,
+    userName: MQTT_USER,
+    password: MQTT_PASS,
+    onSuccess: () => {
+      console.log("Connected to EMQX");
+      client.subscribe(TOPIC_STATUS_DOOR);
+      client.subscribe(TOPIC_STATUS_LIGHT);
+    },
+    onFailure: (err) => console.error("MQTT error:", err)
+  });
+
+  // 📥 Handle incoming messages
+  client.onMessageArrived = (msg) => {
+    if (msg.destinationName === TOPIC_STATUS_DOOR) {
+      document.querySelector("#door-status").textContent = msg.payloadString;
+    }
+    if (msg.destinationName === TOPIC_STATUS_LIGHT) {
+      document.querySelector("#light-status").textContent = msg.payloadString;
+    }
+  };
+
+  // 📤 Publish helper
+  function send(topic, payload) {
+    const msg = new Paho.MQTT.Message(payload);
+    msg.destinationName = topic;
+    client.send(msg);
+  }
+
+  // 🟩 OPEN button
+  document.querySelector(".btn-open").onclick = () => {
+    send(TOPIC_CMD, "open");
+    navigator.vibrate?.(50);
+    speak("Opening garage");
+  };
+
+  // 🟥 CLOSE button
+  document.querySelector(".btn-close").onclick = () => {
+    send(TOPIC_CMD, "close");
+    navigator.vibrate?.(50);
+    speak("Closing garage");
+  };
+
+  // 🟨 LIGHT toggle
+  document.querySelector(".btn-light").onclick = () => {
+    send(TOPIC_LIGHT, "toggle");
+    navigator.vibrate?.(50);
+    speak("Toggling lights");
+  };
+
+  // 🔊 Voice feedback
+  function speak(text) {
+    const msg = new SpeechSynthesisUtterance(text);
+    msg.rate = 1;
+    msg.pitch = 1;
+    speechSynthesis.speak(msg);
+  }
+</script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js")
+      .then(() => console.log("Service worker registered"));
+  }
+</script>
+
+
+</body>
+</html>
